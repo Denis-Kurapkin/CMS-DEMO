@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+    <preConditions onErrorMessage="Missing extension &quot;uuid-ossp&quot;!
+                   For PostgreSQL execute: CREATE EXTENSION IF NOT EXISTS &quot;uuid-ossp&quot;;">
+        <sqlCheck expectedResult="1">
+            SELECT 1 FROM pg_extension WHERE extname = 'uuid-ossp'
+        </sqlCheck>
+    </preConditions>
+    <changeSet author="m.bondarovich" id="add-test-table">
+        <sql>
+            CREATE TABLE test_table
+            (
+                process_group_id        uuid    NOT NULL PRIMARY KEY
+            );
+        </sql>
+        <rollback>
+            DROP TABLE process_groups;
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
